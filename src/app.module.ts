@@ -12,6 +12,9 @@ import { DriverModule } from './modules/driver/driver.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import { PaymentModule } from './modules/payment/payment.module';
+
+
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
@@ -31,7 +34,8 @@ dotenv.config();
     OrderModule,
     UserModule,
     ComplainModule,
-    DriverModule],
+    DriverModule,
+    PaymentModule],
   controllers: [],
   providers: [],
 })
