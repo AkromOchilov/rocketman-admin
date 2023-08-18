@@ -12,7 +12,8 @@ import { DriverModule } from './modules/driver/driver.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
-//sabinas comment
+
+//Hopefully its last practice
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
