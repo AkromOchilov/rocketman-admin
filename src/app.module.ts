@@ -9,12 +9,9 @@ import { OrderModule } from './modules/order/order.module';
 import { UserModule } from './modules/user/user.module';
 import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
-<<<<<<< HEAD
-import * as dotenv from 'dotenv';
-=======
+
 import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv'
->>>>>>> dev
 dotenv.config()
 // dsfdsf
 // fsdfsdf
