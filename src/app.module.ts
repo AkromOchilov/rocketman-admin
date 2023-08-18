@@ -9,8 +9,9 @@ import { OrderModule } from './modules/order/order.module';
 import { UserModule } from './modules/user/user.module';
 import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 dotenv.config()
+
 
 @Module({
   imports: [
