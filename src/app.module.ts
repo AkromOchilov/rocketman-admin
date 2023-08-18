@@ -5,6 +5,10 @@ import { CategoryModule } from './modules/category/category.module';
 import { StoreModule } from './modules/store/store.module';
 import { ProductCategoryModule } from './modules/product_category/product_category.module';
 import { ProductModule } from './modules/product/product.module';
+import { OrderModule } from './modules/order/order.module';
+import { UserModule } from './modules/user/user.module';
+import { ComplainModule } from './modules/complain/complain.module';
+import { DriverModule } from './modules/driver/driver.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -23,7 +27,11 @@ dotenv.config()
     CategoryModule,
     StoreModule,
     ProductCategoryModule,
-    ProductModule],
+    ProductModule,
+    OrderModule,
+    UserModule,
+    ComplainModule,
+    DriverModule],
   controllers: [],
   providers: [],
 })
