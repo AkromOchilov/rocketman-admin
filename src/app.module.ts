@@ -9,12 +9,10 @@ import { OrderModule } from './modules/order/order.module';
 import { UserModule } from './modules/user/user.module';
 import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
-import * as dotenv from 'dotenv';
-dotenv.config();
-
 import { PaymentModule } from './modules/payment/payment.module';
-//sabina's commit
-
+import * as dotenv from 'dotenv'
+dotenv.config()
+//sabinas comment
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
