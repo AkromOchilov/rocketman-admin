@@ -16,9 +16,15 @@ import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv'
 >>>>>>> dev
 dotenv.config()
-// dsadasdasfdsdsfsdsd
-// sfds
+// dsfdsf
 // fsdfsdf
+// fsdfsd
+// fsdfsd/
+
+
+
+
+// fdsfds
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
