@@ -10,18 +10,14 @@ import { UserModule } from './modules/user/user.module';
 import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
 
+
 import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
-// dsfdsf
-// fsdfsdf
-// fsdfsd
-// fsdfsd/
 
 
 
 
-// fdsfds
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
