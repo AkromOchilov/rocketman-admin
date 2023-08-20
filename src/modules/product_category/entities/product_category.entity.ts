@@ -11,21 +11,13 @@ export class ProductCategory {
   product_category_name: string;
 
   @Column()
-  product_category_count: string;
-
-  @Column()
-  product_category_image: string;
-
-  @Column()
-  Product_category_image_link: string;
-
-  @Column()
   status: boolean
 
-  @ManyToOne(()=> Store, store=>store.product_category)
-  @JoinColumn({name: 'product_category_id'})
+  @ManyToOne(()=>Store, store=>store.productCategories)
+  @JoinColumn({name: 'store_id'})
   store: Store;
 
-  @OneToMany(()=>Product, product=>product.product_category)
-  products: Product[]
+  @OneToMany(()=>Product, product=>product.productCategory)
+  products: Product;
+
 }

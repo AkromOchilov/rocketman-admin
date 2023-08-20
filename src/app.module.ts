@@ -12,7 +12,8 @@ import { DriverModule } from './modules/driver/driver.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv'
 dotenv.config()
-//sabinas comment
+import { HttpExceptionFilter } from './exceptions/http-exception';
+import { APP_FILTER } from '@nestjs/core';
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
@@ -35,6 +36,9 @@ dotenv.config()
     DriverModule,
     PaymentModule],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_FILTER,
+    useClass: HttpExceptionFilter,
+  }],
 })
 export class AppModule {}

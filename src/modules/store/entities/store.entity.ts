@@ -11,18 +11,24 @@ export class Store {
   store_name: string;
 
   @Column()
-  phone_number: number
+  phone_number: string
 
   @Column()
   address: string
 
   @Column()
+  longitude: string;
+
+  @Column()
+  latitude: string;
+
+  @Column()
   status: boolean
 
   @ManyToOne(()=> Category, category=>category.stores)
-  @JoinColumn({name: 'category_id'})
+  @JoinColumn({name: "category_id"})
   category: Category;
 
   @OneToMany(()=>ProductCategory, product_category=>product_category.store)
-  product_category: ProductCategory[]
+  productCategories: ProductCategory[]
 }
