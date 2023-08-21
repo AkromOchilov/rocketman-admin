@@ -1,26 +1,58 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from './entities/user.entity';
+import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Admin } from './entities/admin.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User) private readonly userRepo: Repository<User>,
-  private readonly jwtService: JwtService){}
+  constructor(@InjectRepository(Admin) private readonly adminRepo: Repository<Admin>,
+    private readonly jwtService: JwtService) { }
 
-  async login({username, password}){
-    let user = await this.userRepo.findOne({where: {username, password}})
-    if(!user){
-      return new UnauthorizedException()
+  getAll() {
+    return this.adminRepo.find()
+  }
+
+  async register(body: RegisterDto) {
+    try {
+      let duplicate = await this.adminRepo.findOneBy({ username: body.username });
+      if (duplicate) {
+        throw new Error("Username already exists!")
+      }
+      let user = this.adminRepo.create(body);
+      if (!user) {
+        return new BadRequestException()
+      }
+      let access_token = this.jwtService.sign({ role: user.role })
+      delete user.password
+
+      return {
+        status: 200,
+        message: "success",
+        data: user,
+        token: access_token
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
     }
-    let access_token = this.jwtService.sign({userId: user.id})
+  }
+
+  async login({ username, password }) {
+    let user = await this.adminRepo.findOne({ where: { username, password } })
+    if (!user) {
+      return new UnauthorizedException("Password or username is wrong!")
+    }
+    let access_token = this.jwtService.sign({ role: user.role })
     delete user.password
     return {
-      token: access_token,
-      success: true,
       status: 200,
-      data: user
+      message: "success",
+      data: user,
+      token: access_token
     }
   }
 
