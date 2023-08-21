@@ -12,13 +12,10 @@ import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import * as dotenv from 'dotenv';
-dotenv.config()
-<<<<<<< HEAD
-
-=======
+dotenv.config();
 import { HttpExceptionFilter } from './exceptions/http-exception';
 import { APP_FILTER } from '@nestjs/core';
->>>>>>> 1bc6971668506751182d21f5fdb99052e7f7cd60
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -32,15 +29,15 @@ import { APP_FILTER } from '@nestjs/core';
       entities: [__dirname + "/modules/**/entities/*.entity.{ts,js}"]
     }),
     AuthModule,
-    // CategoryModule,
-    // StoreModule,
-    // ProductCategoryModule,
-    // ProductModule,
-    // OrderModule,
+    CategoryModule,
+    StoreModule,
+    ProductCategoryModule,
+    ProductModule,
+    OrderModule,
     UserModule,
     ComplainModule,
     DriverModule,
-    // PaymentModule
+    PaymentModule
   ],
   controllers: [],
   providers: [{

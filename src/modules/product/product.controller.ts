@@ -1,11 +1,7 @@
-import { Multer } from 'multer';
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Request, UploadedFile } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/utils/multer';
-import { IRequest } from 'src/interfaces/interface';
 
 @Controller('product')
 export class ProductController {
