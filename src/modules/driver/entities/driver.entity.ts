@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Order } from "src/modules/order/entities/order.entity";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Driver extends BaseEntity {
@@ -22,4 +23,7 @@ export class Driver extends BaseEntity {
 
   @Column({ type: "boolean", default: false })
   status: boolean
+
+  @OneToMany(()=> Order, order=>order.driver)
+  orders: Order[]
 }

@@ -1,4 +1,3 @@
-import { CreateCategoryDto } from './../category/dto/create-category.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
@@ -35,9 +34,6 @@ export class StoreService {
 
   async findAll() {
     let stores = await this.storeRepo.find({relations: ["category"]})
-    if(!stores.length){
-      return new NotFoundException()
-    }
     return {
       status: 200,
       message: 'all stores',
@@ -48,7 +44,7 @@ export class StoreService {
   async findOne(id: number) {
     let store = await this.categoryRepo.findOne({where: {id}})
     if(!store){
-      return new NotFoundException('Store not found')
+      return new NotFoundException('store is not found')
     }
     return {
       status: 200,
