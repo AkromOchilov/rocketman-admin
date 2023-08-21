@@ -2,7 +2,7 @@ import { Category } from "src/modules/category/entities/category.entity";
 import { ProductCategory } from "src/modules/product_category/entities/product_category.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({name: "stores"})
+@Entity()
 export class Store {
   @PrimaryGeneratedColumn()
   id: number;
