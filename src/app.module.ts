@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module';
 import { StoreModule } from './modules/store/store.module';
 import { ProductCategoryModule } from './modules/product_category/product_category.module';
@@ -10,35 +11,41 @@ import { UserModule } from './modules/user/user.module';
 import { ComplainModule } from './modules/complain/complain.module';
 import { DriverModule } from './modules/driver/driver.module';
 import { PaymentModule } from './modules/payment/payment.module';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 dotenv.config()
+<<<<<<< HEAD
+
+=======
 import { HttpExceptionFilter } from './exceptions/http-exception';
 import { APP_FILTER } from '@nestjs/core';
+>>>>>>> 1bc6971668506751182d21f5fdb99052e7f7cd60
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: "postgres",
-      password: process.env.DB_PASSWORD,
-      username: process.env.DB_USERNAME,
-      host: process.env.DB_HOST ,
-      database: process.env.DB_DATABASE,
+      password: process.env.PG_PASSWORD,
+      username: process.env.PG_USER,
+      host: process.env.PG_HOST,
+      database: process.env.PG_DATABASE,
       synchronize: true,
-      entities:[__dirname + "/modules/**/entities/*.entity.{ts,js}"]
+      entities: [__dirname + "/modules/**/entities/*.entity.{ts,js}"]
     }),
-    CategoryModule,
-    StoreModule,
-    ProductCategoryModule,
-    ProductModule,
-    OrderModule,
+    AuthModule,
+    // CategoryModule,
+    // StoreModule,
+    // ProductCategoryModule,
+    // ProductModule,
+    // OrderModule,
     UserModule,
     ComplainModule,
     DriverModule,
-    PaymentModule],
+    // PaymentModule
+  ],
   controllers: [],
   providers: [{
     provide: APP_FILTER,
     useClass: HttpExceptionFilter,
   }],
 })
-export class AppModule {}
+export class AppModule { }

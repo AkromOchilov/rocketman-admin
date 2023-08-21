@@ -1,34 +1,101 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt.guards';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    try {
+      let users = await this.userService.findAll();
+      return {
+        status: 200,
+        message: "Success",
+        data: users
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      let user = await this.userService.findOne(id);
+      if (!user) {
+        throw new Error("User is not found!")
+      }
+      return {
+        status: 200,
+        message: "success",
+        data: user
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
+  }
+
+  @Post()
+  async create(@Body() body: CreateUserDto) {
+    try {
+      let newUser = await this.userService.create(body);
+      return {
+        status: 201,
+        message: "successfully created!",
+        data: newUser
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    try {
+      let user = await this.userService.update(id, updateUserDto);
+      if (user.affected > 0) {
+        return {
+          status: 205,
+          message: "successfully updated!"
+        }
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      let user = await this.userService.delete(id);
+      if (user.affected > 0) {
+        return {
+          status: 204,
+          message: "successfully deleted!"
+        }
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 }

@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateComplainDto } from './dto/create-complain.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Users } from '../user/entities/user.entity';
 import { UpdateComplainDto } from './dto/update-complain.dto';
+import { Complains } from './entities/complain.entity';
 
 @Injectable()
 export class ComplainService {
-  create(createComplainDto: CreateComplainDto) {
-    return 'This action adds a new complain';
+  constructor(@InjectRepository(Complains) private readonly complainsRepo: Repository<Complains>,
+    @InjectRepository(Users) private readonly userRepo: Repository<Users>
+  ) { }
+
+  async findAll() {
+    return await this.complainsRepo.find({ relations: { user: true } });
   }
 
-  findAll() {
-    return `This action returns all complain`;
+  async findOne(id: number) {
+    return await this.complainsRepo.findOneBy({ id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} complain`;
+  async create(body: any) {
+    const user = await this.userRepo.findOneBy({ id: body.user });
+    if (!user) {
+      throw new Error("user is not found!")
+    }
+    const complain = this.complainsRepo.create(body);
+    this.complainsRepo.save(complain);
+    return complain
   }
 
-  update(id: number, updateComplainDto: UpdateComplainDto) {
-    return `This action updates a #${id} complain`;
+  async update(id: number, body: UpdateComplainDto) {
+    let foundComplain = await this.complainsRepo.findOneBy({ id });
+    if (!foundComplain) {
+      throw new Error("Complain is not found!")
+    }
+    return await this.complainsRepo.update({ id }, body);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} complain`;
+  async delete(id: number) {
+    let foundComplain = await this.complainsRepo.findOneBy({ id });
+    if (!foundComplain) {
+      throw new Error("Complain is not found!")
+    }
+    return await this.complainsRepo.delete({ id });
   }
 }

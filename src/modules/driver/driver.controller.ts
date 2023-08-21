@@ -1,34 +1,101 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt.guards';
 import { DriverService } from './driver.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { UpdateDriverDto } from './dto/update-driver.dto';
 
-@Controller('driver')
+@UseGuards(JwtAuthGuard)
+@Controller('drivers')
 export class DriverController {
-  constructor(private readonly driverService: DriverService) {}
-
-  @Post()
-  create(@Body() createDriverDto: CreateDriverDto) {
-    return this.driverService.create(createDriverDto);
-  }
+  constructor(private readonly driverService: DriverService) { }
 
   @Get()
-  findAll() {
-    return this.driverService.findAll();
+  async findAll() {
+    try {
+      let drivers = await this.driverService.findAll();
+      return {
+        status: 200,
+        message: "Success",
+        data: drivers
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.driverService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      let driver = await this.driverService.findOne(id);
+      if (!driver) {
+        throw new Error("Driver is not found!")
+      }
+      return {
+        status: 200,
+        message: "success",
+        data: driver
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
+  }
+
+  @Post()
+  async create(@Body() body: CreateDriverDto) {
+    try {
+      let newDriver = await this.driverService.create(body);
+      return {
+        status: 201,
+        message: "successfully created!",
+        data: newDriver
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDriverDto: UpdateDriverDto) {
-    return this.driverService.update(+id, updateDriverDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateDriverDto) {
+    try {
+      let driver = await this.driverService.update(id, body);
+      if (driver.affected > 0) {
+        return {
+          status: 205,
+          message: "successfully updated!"
+        }
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.driverService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      let driver = await this.driverService.delete(id);
+      if (driver.affected > 0) {
+        return {
+          status: 204,
+          message: "successfully deleted!"
+        }
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error.message
+      }
+    }
   }
 }
