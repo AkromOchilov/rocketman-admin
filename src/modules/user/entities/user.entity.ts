@@ -1,4 +1,3 @@
-
 import { Complains } from "src/modules/complain/entities/complain.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
