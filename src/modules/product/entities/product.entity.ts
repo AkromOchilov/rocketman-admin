@@ -2,7 +2,7 @@ import { ProductCategory } from "src/modules/product_category/entities/product_c
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity()
+@Entity({name: 'products'})
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,12 +17,15 @@ export class Product {
   product_image: string
 
   @Column()
+  product_image_link: string
+
+  @Column()
   product_price: number;
 
   @Column()
   status: boolean;
 
-  @ManyToOne(()=> ProductCategory, product_category=>product_category.products)
-  @JoinColumn({name: 'product_id'})
-  product_category: ProductCategory;
+  @ManyToOne(()=>ProductCategory, productCategory=>productCategory.products)
+  @JoinColumn({name: "product_category_id"})
+  productCategory: ProductCategory;
 }
