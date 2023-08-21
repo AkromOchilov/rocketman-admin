@@ -1,9 +1,23 @@
-import { Product } from "src/modules/product/entities/product.entity";
-import { Store } from "src/modules/store/entities/store.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+import { Complains } from "src/modules/complain/entities/complain.entity";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+
+
+@Unique('my_unique_constraint', ['username'])
 @Entity()
-export class User {
+export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
+
+  @Column({ type: "varchar", unique: true })
+  username: string;
+
+  @Column({ type: "varchar" })
+  lastname: string;
+
+  @Column({ type: "bigint" })
+  phone_number: number
+
+  @OneToMany(() => Complains, (complain)=> complain.user)
+  complains: Complains[]
 }
