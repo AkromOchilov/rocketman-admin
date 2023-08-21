@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateComplainDto } from './create-complain.dto';
+import { IsString } from "class-validator";
 
-export class UpdateComplainDto extends PartialType(CreateComplainDto) {}
+export class UpdateComplainDto {
+    @IsString()
+    complain_text: string
+}

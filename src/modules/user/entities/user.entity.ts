@@ -1,32 +1,21 @@
-export class User {}
-import { Product } from "src/modules/product/entities/product.entity";
-import { Store } from "src/modules/store/entities/store.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Complains } from "src/modules/complain/entities/complain.entity";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
+@Unique('my_unique_constraint', ['username'])
 @Entity()
-export class ProductCategory {
+export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  product_category_name: string;
+  @Column({ type: "varchar", unique: true })
+  username: string;
 
-  @Column()
-  product_category_count: string;
+  @Column({ type: "varchar" })
+  lastname: string;
 
-  @Column()
-  product_category_image: string;
+  @Column({ type: "bigint" })
+  phone_number: number
 
-  @Column()
-  Product_category_image_link: string;
-
-  @Column()
-  status: boolean
-
-  @ManyToOne(()=> Store, store=>store.product_category)
-  @JoinColumn({name: 'product_category_id'})
-  store: Store;
-
-  @OneToMany(()=>Product, product=>product.product_category)
-  products: Product[]
+  @OneToMany(() => Complains, (complain)=> complain.user)
+  complains: Complains[]
 }
