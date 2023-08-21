@@ -1,4 +1,5 @@
 import { Complains } from "src/modules/complain/entities/complain.entity";
+import { Order } from "src/modules/order/entities/order.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -17,5 +18,8 @@ export class Users extends BaseEntity {
 
   @OneToMany(() => Complains, (complain)=> complain.user)
   complains: Complains[]
+
+  @OneToMany(() => Order, order=>order.user)
+  orders: Order[]
 }
 

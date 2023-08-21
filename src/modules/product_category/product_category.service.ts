@@ -30,9 +30,6 @@ export class ProductCategoryService {
 
   async findAll() {
     let productCategories = await this.productCategoryRepo.find({relations: ["store"]})
-    if(!productCategories.length){
-      return new NotFoundException('product categories are not found')
-    }
 
     return {
       status: 200,
@@ -44,14 +41,14 @@ export class ProductCategoryService {
   async findOne(id: number) {
     let productCategory = await this.productCategoryRepo.findOne({where: {id}, relations: ["store"]})
     if(!productCategory){
-      return new NotFoundException('product category not found')
+      return new NotFoundException('product category is not found')
     }
 
     return {
       status: 200,
       message: "product categories by id",
       data: productCategory
-    };;
+    };
   }
 
   async update(id: number, updateProductCategoryDto: UpdateProductCategoryDto) {
