@@ -1,26 +1,71 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(@InjectRepository(Category) private readonly categoryRepo: Repository<Category>){}
+  async create(createCategoryDto: CreateCategoryDto) {
+    let newCategory = this.categoryRepo.create(createCategoryDto);
+    await this.categoryRepo.save(newCategory)
+    return {
+      status: 201,
+      message: "created",
+      data: newCategory
+    }
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll() {
+    let categories = await this.categoryRepo.find({relations: ['stores']});
+    if(!categories?.length){
+      return new NotFoundException("No catgories found")
+    }
+    return {
+      status: 200,
+      message: 'all categories',
+      data: categories
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    let category = await this.categoryRepo.findOne({where: {id}})
+    if(!category){
+      return new NotFoundException("No category found")
+    }
+    return {
+      status: 200,
+      message: 'category by id',
+      data: category
+    }
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    let category = await this.categoryRepo.findOne({where: {id}})
+    if(!category){
+      return new NotFoundException('no category to update')
+    }
+    category.category_name = updateCategoryDto.category_name || category.category_name
+    category.status = updateCategoryDto.status
+    await this.categoryRepo.save(category)
+    return {
+      status: 200,
+      message: 'updated',
+      data: category
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    let category = await this.categoryRepo.findOne({where: {id}})
+    if(!category){
+      return new NotFoundException('no category to update')
+    }
+    await this.categoryRepo.remove(category)
+    return {
+      status: 200,
+      message: 'successfully deleted'
+    }
   }
 }

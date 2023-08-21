@@ -1,7 +1,7 @@
+import { Store } from "src/modules/store/entities/store.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Store } from "../../store/entities/store.entity";
 
-@Entity()
+@Entity({name: 'categories'})
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,12 +12,7 @@ export class Category {
   @Column()
   status: boolean;
 
-  @Column()
-  category_image: string;
-
-  @Column()
-  category_image_link: string;
-
-  @OneToMany(()=>Store, store=>store.category)
+  @OneToMany(()=> Store, store=>store.category)
   stores: Store[]
+
 }
