@@ -23,8 +23,14 @@ export class OrderController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
+  update(@Param('id') id: string, @Body() body: any) {
+    body.order_id = id
+    return this.orderService.asssignDriver(body);
+  }
+
+  @Patch('status/:id')
+  updateStatus(@Param('id') id: string, @Body() body: any) {
+    return this.orderService.changeOrderStatus(+id, body);
   }
 
   @Delete(':id')
