@@ -22,9 +22,15 @@ export class OrderController {
     return this.orderService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
+  @Patch('driver/:id')
+  update(@Param('id') id: string, @Body() body: any) {
+    body.order_id = id
+    return this.orderService.assignDriver(body);
+  }
+
+  @Patch('status/:id')
+  updateStatus(@Param('id') id: string, @Body() body: any) {
+    return this.orderService.changeOrderStatus(+id, body);
   }
 
   @Delete(':id')

@@ -16,8 +16,8 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @IsEnum(order_status)
-  status: order_status
+  @Column()
+  status: order_status;
 
   @Column()
   payment_type: string;
