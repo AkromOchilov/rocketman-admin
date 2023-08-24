@@ -51,7 +51,7 @@ export class OrderService {
     }
   }
 
-  async asssignDriver(updateOrderDto: UpdateOrderDto) {
+  async assignDriver(updateOrderDto: UpdateOrderDto) {
     let order = await this.orderRepo.findOne({where: {id: updateOrderDto.order_id}, 
       relations: ['products', 'user', 'driver'],
     })
