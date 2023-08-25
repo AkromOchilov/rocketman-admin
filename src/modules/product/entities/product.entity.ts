@@ -1,5 +1,6 @@
+import { Order } from "src/modules/order/entities/order.entity";
 import { ProductCategory } from "src/modules/product_category/entities/product_category.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -27,4 +28,8 @@ export class Product {
   @ManyToOne(()=>ProductCategory, productCategory=>productCategory.products)
   @JoinColumn({name: "product_category_id"})
   productCategory: ProductCategory;
+
+  @ManyToMany(() => Order, order => order.products)
+  orders: Order[];
+
 }

@@ -20,9 +20,6 @@ export class CategoryService {
 
   async findAll() {
     let categories = await this.categoryRepo.find({relations: ['stores']});
-    if(!categories?.length){
-      return new NotFoundException("No catgories found")
-    }
     return {
       status: 200,
       message: 'all categories',
@@ -33,7 +30,7 @@ export class CategoryService {
   async findOne(id: number) {
     let category = await this.categoryRepo.findOne({where: {id}})
     if(!category){
-      return new NotFoundException("No category found")
+      return new NotFoundException('category is not found')
     }
     return {
       status: 200,
@@ -53,7 +50,7 @@ export class CategoryService {
     return {
       status: 200,
       message: 'updated',
-      data: category
+      data: [category]
     }
   }
 
