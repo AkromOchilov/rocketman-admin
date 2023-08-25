@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { UpdatePaymentStatusDto } from './dto/update-payment-status.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -22,9 +23,14 @@ export class PaymentController {
     return this.paymentService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
-    return this.paymentService.update(+id, updatePaymentDto);
+  @Patch('payment-update/:id')
+  updatePayment(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
+    return this.paymentService.updatePayment(+id, updatePaymentDto);
+  }
+
+  @Patch('status-update/:id')
+  updatePaymentStatus(@Param('id') id: string, @Body() updatePaymentStatusDto: UpdatePaymentStatusDto) {
+    return this.paymentService.updatePaymentStatus(+id, updatePaymentStatusDto);
   }
 
   @Delete(':id')

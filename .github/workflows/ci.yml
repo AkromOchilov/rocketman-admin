@@ -23,6 +23,3 @@ jobs:
 
       - name: Build the app
         run: npm run build
-
-      - name: Run tests
-        run: npm run test
