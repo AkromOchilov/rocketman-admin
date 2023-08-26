@@ -2,7 +2,7 @@ import { IsEnum } from "class-validator";
 import { Driver } from "src/modules/driver/entities/driver.entity";
 import { Product } from "src/modules/product/entities/product.entity";
 import { Users } from "src/modules/user/entities/user.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 enum order_status {
   BUYURTMA = "buyurtma",
@@ -28,7 +28,7 @@ export class Order {
   @Column()
   latitude: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date
 
   @ManyToOne(()=>Users, user=>user.orders)

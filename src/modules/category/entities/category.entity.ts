@@ -1,5 +1,5 @@
 import { Store } from "src/modules/store/entities/store.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: 'categories'})
 export class Category {
@@ -11,6 +11,15 @@ export class Category {
 
   @Column()
   status: boolean;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date
 
   @OneToMany(()=> Store, store=>store.category)
   stores: Store[]

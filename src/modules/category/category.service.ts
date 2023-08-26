@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
+import { UpdateCategoryStatusDto } from './dto/update-category-status.dto';
 
 @Injectable()
 export class CategoryService {
@@ -39,7 +40,7 @@ export class CategoryService {
     }
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async updateCategory(id: number, updateCategoryDto: UpdateCategoryDto) {
     let category = await this.categoryRepo.findOne({where: {id}})
     if(!category){
       return new NotFoundException('no category to update')
@@ -48,20 +49,32 @@ export class CategoryService {
     category.status = updateCategoryDto.status
     await this.categoryRepo.save(category)
     return {
-      status: 200,
-      message: 'updated',
-      data: [category]
+      status: HttpStatus.OK,
+      message: 'updated category',
+    }
+  }
+
+  async updateCategoryStatus(id: number, updateCategoryStatusDto: UpdateCategoryStatusDto) {
+    let category = await this.categoryRepo.findOne({where: {id}})
+    if(!category){
+      return new NotFoundException('no category found')
+    }
+    category.status = updateCategoryStatusDto.status
+    await this.categoryRepo.save(category)
+    return {
+      status: HttpStatus.OK,
+      message: 'updated status'
     }
   }
 
   async remove(id: number) {
     let category = await this.categoryRepo.findOne({where: {id}})
     if(!category){
-      return new NotFoundException('no category to update')
+      return new NotFoundException('no category found')
     }
     await this.categoryRepo.remove(category)
     return {
-      status: 200,
+      status: HttpStatus.OK,
       message: 'successfully deleted'
     }
   }

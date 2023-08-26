@@ -1,10 +1,10 @@
 import { Complains } from "src/modules/complain/entities/complain.entity";
 import { Order } from "src/modules/order/entities/order.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Users extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({type:  "bigint"})
   id: number;
 
   @Column({ type: "varchar", unique: true })
