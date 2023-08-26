@@ -1,6 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString, IsArray, ArrayNotEmpty, IsNumber } from 'class-validator';
 
-enum order_status {
+enum Order_status {
   BUYURTMA = "buyurtma",
   QABUL = "qabul",
   YETKAZISH = "yetkazish",
@@ -9,28 +10,39 @@ enum order_status {
 }
 
 export class CreateOrderDto {
+  @ApiProperty({ type: Order_status })
   @IsNotEmpty()
-  @IsEnum(order_status)
-  status: order_status;
+  @IsEnum(Order_status)
+  status: Order_status;
 
+  @ApiProperty({type: String, example: "cash"})
   @IsNotEmpty()
   @IsString()
   payment_type: string;
 
+  @ApiProperty({type: String, example: "0000000"})
   @IsNotEmpty()
   @IsString()
   longitude: string;
 
+  @ApiProperty({type: String, example: "0000000"})
   @IsNotEmpty()
   @IsString()
   latitude: string;
 
+  @ApiProperty({type: Array, example: [1, 2, 3], description: "array of products ID"})
   @IsArray()
   @ArrayNotEmpty()
-  @IsNumber({}, { each: true })
-  productIds: number[];
+  @IsNumber()
+  products: number[];
 
+  @ApiProperty({type: Number, example: 1, description: "existing user ID"})
   @IsNotEmpty()
   @IsNumber()
-  userId: number;
+  user: number;
+
+  @ApiProperty({type: Number, example: 1, description: "existing driver ID"})
+  @IsNotEmpty()
+  @IsNumber()
+  driver: number;
 }

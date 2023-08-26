@@ -1,7 +1,7 @@
 import { Store } from "src/modules/store/entities/store.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({name: 'categories'})
+@Entity()
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,7 +21,6 @@ export class Category {
   @DeleteDateColumn()
   deleted_at: Date
 
-  @OneToMany(()=> Store, store=>store.category)
+  @OneToMany(() => Store, (store: Store) => store.category)
   stores: Store[]
-
 }
