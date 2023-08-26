@@ -13,8 +13,8 @@ export class CategoryService {
     let newCategory = this.categoryRepo.create(createCategoryDto);
     await this.categoryRepo.save(newCategory)
     return {
-      status: 201,
-      message: "created",
+      status: HttpStatus.CREATED,
+      message: "created category",
       data: newCategory
     }
   }
@@ -22,7 +22,7 @@ export class CategoryService {
   async findAll() {
     let categories = await this.categoryRepo.find({relations: ['stores']});
     return {
-      status: 200,
+      status: HttpStatus.OK,
       message: 'all categories',
       data: categories
     }
@@ -34,9 +34,9 @@ export class CategoryService {
       return new NotFoundException('category is not found')
     }
     return {
-      status: 200,
+      status: HttpStatus.OK,
       message: 'category by id',
-      data: category
+      data: [category]
     }
   }
 
@@ -45,6 +45,7 @@ export class CategoryService {
     if(!category){
       return new NotFoundException('no category to update')
     }
+    await this.categoryRepo.update(id, updateCategoryDto)
     category.category_name = updateCategoryDto.category_name || category.category_name
     category.status = updateCategoryDto.status
     await this.categoryRepo.save(category)
