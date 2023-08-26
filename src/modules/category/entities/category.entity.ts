@@ -12,7 +12,6 @@ export class Category {
   @Column()
   status: boolean;
 
-  @OneToMany(()=> Store, store=>store.category)
+  @OneToMany(() => Store, (store: Store) => store.category)
   stores: Store[]
-
 }

@@ -1,20 +1,18 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module'
+import { UserModule } from './modules/user/user.module';
+import { ComplainModule } from './modules/complain/complain.module';
+import { DriverModule } from './modules/driver/driver.module';
 import { CategoryModule } from './modules/category/category.module';
 import { StoreModule } from './modules/store/store.module';
 import { ProductCategoryModule } from './modules/product_category/product_category.module';
 import { ProductModule } from './modules/product/product.module';
 import { OrderModule } from './modules/order/order.module';
-import { UserModule } from './modules/user/user.module';
-import { ComplainModule } from './modules/complain/complain.module';
-import { DriverModule } from './modules/driver/driver.module';
 import { PaymentModule } from './modules/payment/payment.module';
-import * as dotenv from 'dotenv';
-dotenv.config();
-import { HttpExceptionFilter } from './exceptions/http-exception';
-import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -29,20 +27,16 @@ import { APP_FILTER } from '@nestjs/core';
       entities: [__dirname + "/modules/**/entities/*.entity.{ts,js}"]
     }),
     AuthModule,
+    UserModule,
+    ComplainModule,
+    DriverModule,
     CategoryModule,
     StoreModule,
     ProductCategoryModule,
     ProductModule,
     OrderModule,
-    UserModule,
-    ComplainModule,
-    DriverModule,
     PaymentModule
   ],
   controllers: [],
-  providers: [{
-    provide: APP_FILTER,
-    useClass: HttpExceptionFilter,
-  }],
 })
 export class AppModule { }

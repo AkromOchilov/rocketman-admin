@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { Admin } from './entities/admin.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -21,6 +21,7 @@ export class AuthService {
         throw new Error("Username already exists!")
       }
       let user = this.adminRepo.create(body);
+      await this.adminRepo.save(user)
       if (!user) {
         return new BadRequestException()
       }
@@ -44,7 +45,7 @@ export class AuthService {
   async login({ username, password }) {
     let user = await this.adminRepo.findOne({ where: { username, password } })
     if (!user) {
-      return new UnauthorizedException("Password or username is wrong!")
+      return new BadRequestException("Password or username is wrong!")
     }
     let access_token = this.jwtService.sign({ role: user.role })
     delete user.password
