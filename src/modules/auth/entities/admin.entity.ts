@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 enum AdminRole {
   ADMIN = "admin",
@@ -6,20 +6,19 @@ enum AdminRole {
 }
 
 @Entity()
-export class Admin {
+export class Admin extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type : "varchar"})
   username: string;
 
-  @Column()
+  @Column({type: "varchar"})
   password: string;
 
   @Column({
     type: "enum",
-    enum: AdminRole,
-    default: AdminRole.ADMIN,
+    enum: AdminRole
   })
   role: AdminRole
 }

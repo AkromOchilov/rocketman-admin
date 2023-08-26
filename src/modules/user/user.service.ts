@@ -10,18 +10,23 @@ export class UserService {
   constructor(@InjectRepository(Users) private readonly userRepo: Repository<Users>) { }
 
   async findAll() {
-    let users = await this.userRepo.find({relations: {complains: true}});
+    let users = await this.userRepo.find({ relations: { complains: true, orders: true } });
     return users
   }
 
   async findOne(id: number) {
-    return await this.userRepo.findOneBy({ id });
+    return await this.userRepo.findOne({
+      where: { id }, relations: { complains: true, orders: true },
+    });
   }
 
   async create(body: CreateUserDto) {
-    let duplicate = await this.userRepo.findOneBy({ username: body.username });
+    let duplicate = await this.userRepo.findOneBy({ id: body.id });
     if (duplicate) {
-      throw new Error("Username is already taken")
+      throw new Error("id already exists")
+    }
+    if (!body.phone_number.startsWith("+998")) {
+      throw new Error("Phone number must start with +998")
     }
     const user = this.userRepo.create(body);
     this.userRepo.save(user);
@@ -32,6 +37,12 @@ export class UserService {
     let foundUser = await this.userRepo.findOneBy({ id });
     if (!foundUser) {
       throw new Error("User is not found!")
+    }
+    if (body.id) {
+      throw new Error("Id is not changeable!")
+    }
+    if (body.phone_number && !body.phone_number?.startsWith("+998")) {
+      throw new Error("Phone number must start with +998")
     }
     return await this.userRepo.update({ id }, body);
   }

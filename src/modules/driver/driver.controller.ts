@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt.guards';
 import { DriverService } from './driver.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { UpdateDriverDto } from './dto/update-driver.dto';
 
+@ApiTags('drivers')
 @Controller('drivers')
 export class DriverController {
   constructor(private readonly driverService: DriverService) { }
@@ -45,6 +47,7 @@ export class DriverController {
     }
   }
 
+  @ApiBearerAuth("defaultBearerAuth")
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() body: CreateDriverDto) {
@@ -63,6 +66,7 @@ export class DriverController {
     }
   }
 
+  @ApiBearerAuth("defaultBearerAuth")
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateDriverDto) {
@@ -82,6 +86,7 @@ export class DriverController {
     }
   }
 
+  @ApiBearerAuth("defaultBearerAuth")
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {

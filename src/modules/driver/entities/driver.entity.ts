@@ -12,8 +12,8 @@ export class Driver extends BaseEntity {
   @Column({ type: "date" })
   birth_date: Date;
 
-  @Column({ type: "bigint" })
-  phone_number: number
+  @Column({ type: "varchar" })
+  phone_number: string
 
   @Column({ type: "varchar", unique: true })
   car_number: string

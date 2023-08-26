@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ComplainService } from './complain.service';
 import { CreateComplainDto } from './dto/create-complain.dto';
 import { UpdateComplainDto } from './dto/update-complain.dto';
 
+@ApiTags('complains')
 @Controller('complains')
 export class ComplainController {
   constructor(private readonly complainService: ComplainService) { }

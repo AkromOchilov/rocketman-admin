@@ -25,10 +25,10 @@ export class Store {
   @Column()
   status: boolean
 
-  @ManyToOne(()=> Category, category=>category.stores)
-  @JoinColumn({name: "category_id"})
+  @ManyToOne(() => Category, category => category.stores)
+  @JoinColumn({ name: "category_id" })
   category: Category;
 
-  @OneToMany(()=>ProductCategory, product_category=>product_category.store)
+  @OneToMany(() => ProductCategory, product_category => product_category.store)
   productCategories: ProductCategory[]
 }

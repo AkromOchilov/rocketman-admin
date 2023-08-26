@@ -25,8 +25,7 @@ export class Product {
   @Column()
   status: boolean;
 
-  @ManyToOne(()=>ProductCategory, productCategory=>productCategory.products)
-  @JoinColumn({name: "product_category_id"})
+  @ManyToOne(() => ProductCategory, productCategory => productCategory.products)
   productCategory: ProductCategory;
 
   @ManyToMany(() => Order, order => order.products)
